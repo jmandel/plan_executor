@@ -7,6 +7,7 @@ require_relative 'lib/plan_executor'
 
 # Pull in any rake task defined in lib/tasks
 Dir['lib/tasks/**/*.rake'].sort.each do |ext|
+  print "loading", ext
   load ext
 end
 
@@ -22,4 +23,6 @@ task :test => [:test_unit] do
   system("open coverage/index.html")
 end
 
+
 task :default => [:test]
+

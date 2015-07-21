@@ -22,7 +22,34 @@ namespace :crucible do
     'http://wildfhir.aegis.net/fhir2',
     'http://fhir-dev.healthintersections.com.au/open'
   ]
-  
+
+  desc 'code_flow'
+  task :code_flow, [] do |t, args|
+    cfg = {
+      oauth: {
+        client_id: "my_web_app",
+        client_secret: "secret"
+      },
+      sign_in: {
+        username: "testuser",
+        password: "test",
+        username_selector: "#j_username",
+        password_selector: "#j_password",
+        submit_selector: "input.btn[name='submit']"
+      },
+      authorize: {
+        click_selectors: ["#remember-not", "input.btn.btn-success"]
+      }
+    }
+
+    sign_in = Crucible::Auth::UsernamePasswordSignIn.new(cfg[:sign_in])
+    authorize = Crucible::Auth::ClickToApprove.new(cfg[:authorize])
+    code_flow =  Crucible::Auth::CodeFlow.new("https://fhir-api-dstu2.smarthealthit.org", cfg[:oauth], sign_in, authorize) 
+    token = code_flow.obtain_token({launch: "1"})
+
+    puts "doing client flow with #{cfg}"
+  end
+ 
   desc 'console'
   task :console, [] do |t, args|
     binding.pry

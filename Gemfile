@@ -19,6 +19,8 @@ gem 'webmock'
 gem 'builder'
 gem 'nokogiri-diff'
 gem 'bcp47'
+gem 'watir-webdriver'
+gem 'selenium-webdriver'
 
 group :test do
   gem 'simplecov', :require => false
