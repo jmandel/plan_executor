@@ -67,6 +67,7 @@ GEM
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.10)
+    headless (2.1.0)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     i18n (0.7.0)
@@ -174,12 +175,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  addressable
   awesome_print
   bcp47
   builder
   date_time_precision
   fhir_client!
   fhir_model!
+  headless
   minitest (~> 4.0)
   mongoid
   mongoid-history
@@ -197,6 +200,3 @@ DEPENDENCIES
   turn
   watir-webdriver
   webmock
-
-BUNDLED WITH
-   1.10.5

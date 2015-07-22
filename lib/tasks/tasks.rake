@@ -26,9 +26,12 @@ namespace :crucible do
   desc 'code_flow'
   task :code_flow, [] do |t, args|
     cfg = {
+      server: "https://fhir-api-dstu2.smarthealthit.org",
       oauth: {
-        client_id: "my_web_app",
-        client_secret: "secret"
+        client_id: "d904161c-9ace-40d8-8bea-5ed7548ad4c7",
+        client_secret: "ANxqpQrhBgqJRNH--1TDZcvmFTwFvJBE0dYy5veIMFZmw6Dnw1pHn64UVBAUjLIjXHIjr5SrRYzTO9x0pywCRgE",
+        redirect_uri:  "http://localhost:8000/after-auth",
+        # RAT eyJhbGciOiJSUzI1NiJ9.eyJhdWQiOlsiZDkwNDE2MWMtOWFjZS00MGQ4LThiZWEtNWVkNzU0OGFkNGM3Il0sImlzcyI6Imh0dHBzOlwvXC9hdXRob3JpemUtZHN0dTIuc21hcnRoZWFsdGhpdC5vcmdcLyIsImp0aSI6ImE3YzFhM2EyLWIyY2QtNGY1MS04Nzc0LWE2MWFiNzVkNGZiYiIsImlhdCI6MTQzNzUzMjQwMn0.Z10y1Kp7OqkqpQ2cQSUaQpYc4WPQ3hhgZtMSjzS_ReXBkjZK-KTSegm10M1TAApFSF05Fz0ToZ5KJB0SEDaaxHA9pRLJEc6-IiUztd3GqQ189k0GOjggcvquwvCfHHTYqg4fZxG9-LAk3MrRSkwvUKJWuuXBN4j7TCJ2eOfIULE
       },
       sign_in: {
         username: "testuser",
@@ -42,12 +45,15 @@ namespace :crucible do
       }
     }
 
+    puts "doing client flow with #{cfg}"
+
     sign_in = Crucible::Auth::UsernamePasswordSignIn.new(cfg[:sign_in])
     authorize = Crucible::Auth::ClickToApprove.new(cfg[:authorize])
-    code_flow =  Crucible::Auth::CodeFlow.new("https://fhir-api-dstu2.smarthealthit.org", cfg[:oauth], sign_in, authorize) 
-    token = code_flow.obtain_token({launch: "1"})
+    code_flow =  Crucible::Auth::CodeFlow.new(cfg[:server], cfg[:oauth], sign_in, authorize) 
 
-    puts "doing client flow with #{cfg}"
+    token = code_flow.obtain_token({launch: "1"})
+    puts "got token #{token.token} with params #{token.params}"
+
   end
  
   desc 'console'
